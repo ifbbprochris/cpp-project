@@ -7,4 +7,5 @@ foreach(v ${all_srcs})
     string(REGEX REPLACE ".cpp" "" target_name ${target_name})
 
     add_executable(${target_name} ${v})
+    target_link_libraries(${target_name} pthread)
 endforeach()

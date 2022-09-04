@@ -25,7 +25,7 @@ pthread_mutex_t my_mutex;
 std::list<Task*> tasks;
 sem_t my_semaphore;
 
-void *consumer_thread(void *arg)
+void* consumer_thread(void* arg)
 {
   Task* ptask = nullptr;
 
@@ -50,7 +50,7 @@ void *consumer_thread(void *arg)
   return nullptr;
 }
 
-void *producer_thread(void *arg)
+void* producer_thread(void* arg)
 {
   int taskID = 0;
   Task* ptask = nullptr;
