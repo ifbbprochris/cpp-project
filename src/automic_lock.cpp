@@ -34,13 +34,26 @@ std::atomic_flag spinmutex = ATOMIC_FLAG_INIT;
 
 #define THREAD_SIZE 10
 
+int inc(int *value, int add) {
+
+  int old;
+  __asm__ volatile (
+    "lock; xaddl %2, %1;"
+    : "=a" (old)
+    : "m" (*value), "a" (add)
+    : "cc", "memory"
+  );
+
+  return old;
+}
+
 void *func(void *arg) {
   int *pcount = (int *)arg;
 
   int i = 0;
   while (i++ < 1000000) {
 
-#if 1
+#if 0
     mutex.lock();
 		(*pcount)++;
 		mutex.unlock();
@@ -50,6 +63,10 @@ void *func(void *arg) {
   while(spinmutex.test_and_set(std::memory_order_acquire));
   (*pcount)++;
   spinmutex.clear(std::memory_order_release);
+
+#else 
+  inc(pcount, 1);
+
 #endif
 
     // usleep(1);
