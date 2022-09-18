@@ -64,7 +64,11 @@ void *func(void *arg) {
   (*pcount)++;
   spinmutex.clear(std::memory_order_release);
 
-#else 
+#elif 0 
+  int temp = *pcount;
+  cas(pcount, temp, temp + 1);
+
+#else
   inc(pcount, 1);
 
 #endif
@@ -132,7 +136,7 @@ int main() {
 	printf("time_used: %d\n", time_used);
 
 
-#if 1
+#if 0
   for (int i = 0;i < 100;i ++) {
 		printf("count --> %d\n", count);
 		sleep(1);
