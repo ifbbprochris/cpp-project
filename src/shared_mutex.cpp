@@ -51,6 +51,7 @@ public:
   {
      std::unique_lock<std::mutex> lock(m_mutex);
      m_value++;
+     std::cout << m_value << std::endl;
   }
 
   void reset()
